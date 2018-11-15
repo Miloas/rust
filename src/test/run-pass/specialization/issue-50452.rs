@@ -1,4 +1,4 @@
-// Copyright 2017 The Rust Project Developers. See the COPYRIGHT
+// Copyright 2018 The Rust Project Developers. See the COPYRIGHT
 // file at the top-level directory of this distribution and at
 // http://rust-lang.org/COPYRIGHT.
 //
@@ -8,16 +8,22 @@
 // option. This file may not be copied, modified, or distributed
 // except according to those terms.
 
-#![feature(flt2dec)]
-#![feature(test)]
+// run-pass
 
-extern crate core;
-extern crate test;
+#![feature(specialization)]
 
-mod any;
-mod char;
-mod hash;
-mod iter;
-mod num;
-mod ops;
-mod slice;
+pub trait Foo {
+    fn foo();
+}
+
+impl Foo for i32 {}
+impl Foo for i64 {}
+impl<T> Foo for T {
+    fn foo() {}
+}
+
+fn main() {
+    i32::foo();
+    i64::foo();
+    u8::foo();
+}
